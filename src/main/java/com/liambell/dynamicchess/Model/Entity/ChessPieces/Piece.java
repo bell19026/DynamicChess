@@ -1,6 +1,8 @@
 package com.liambell.dynamicchess.Model.Entity.ChessPieces;
 
-public class Piece {
+import com.liambell.dynamicchess.Model.Interfaces.Movement;
+
+public class Piece implements Movement {
 
     /*
         - Name of the piece
@@ -29,5 +31,10 @@ public class Piece {
 
     public Piece(String pieceName) {
         this.pieceName = pieceName;
+    }
+
+    @Override
+    public boolean isValidMove(Piece[][] chessboard, Piece pieceBeingMoved, int[] startOfMovementPiecePosition, int[] endOfMovementPiecePosition) {
+        return false;
     }
 }
