@@ -24,5 +24,7 @@ public class GameController {
             IntStream.range(0, chessboard.length).mapToObj(j -> "[" + pieces[j].getPieceName() + "]").forEach(System.out::print);
             System.out.println();
         }
+
+        boardServices.cloneChessboard(boardServices.getChessBoard().length, boardServices.getChessBoard().length);
     }
 }

@@ -5,6 +5,8 @@ import com.liambell.dynamicchess.Model.Entity.ChessPieces.Piece;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.IntStream;
+
 @Service
 public class BoardServices {
     @Autowired
@@ -19,14 +21,6 @@ public class BoardServices {
     public void setChessBoardSize(int chessBoardColumn, int chessBoardRow) {
         board.setBoardSize(chessBoardColumn, chessBoardRow);
         chessBoard = new Piece[board.getBoardSize()[0]][board.getBoardSize()[1]];
-    }
-
-    public void populateChessboard() {
-        for(int i = 0; i < chessBoard.length; i++) {
-            for (int j = 0; j < chessBoard.length; j++) {
-                chessBoard[i][j] = new Piece();
-            }
-        }
     }
 
     public void _loadDefaultBoardConfiguration() {
@@ -69,6 +63,36 @@ public class BoardServices {
                 this.chessBoard[i][j] = new Piece(" ");
             }
         }
+    }
+
+    public Piece[][] movePiece(int[] startOfMovementPosition, int[] endOfMovementPosition) {
+
+        /*
+            -Validate if the move is correct
+            -Get the current allegiance
+            - Clone the chessboard, change it, then copy it back
+         */
+        Piece piece = this.chessBoard[startOfMovementPosition[0]][startOfMovementPosition[1]];
+        String opposingAllegiance = piece.getPieceAllegiance() == "White" ? "Black" : "White";
+
+        if (piece.isValidMove(this.chessBoard, piece, startOfMovementPosition, endOfMovementPosition)) {
+            Piece[][] temporaryChessboard = cloneChessboard(this.chessBoard.length, this.chessBoard.length);
+        }
+        return this.chessBoard;
+    }
+
+    public Piece[][] cloneChessboard(int boardSizeY, int boardSizeX) {
+        Piece[][] temporaryChessboard = new Piece[boardSizeY][boardSizeY];
+        IntStream.range(0, this.chessBoard.length).forEach(i ->
+                IntStream.range(0, this.chessBoard[i].length).forEach(j ->
+                        temporaryChessboard[i][j] = this.chessBoard[i][j]));
+
+        return temporaryChessboard;
+    }
+
+    public Piece[][] modifyChessboardSize(int boardSizeY, int boardSizeX) {
+        Piece[][] temporaryChessboard = cloneChessboard(boardSizeY, boardSizeX);
+        return temporaryChessboard;
     }
 
 }
