@@ -3,7 +3,6 @@ package com.liambell.dynamicchess.Model.Services;
 import com.liambell.dynamicchess.Model.Entity.Board;
 import com.liambell.dynamicchess.Model.Entity.ChessPieces.Piece;
 import com.liambell.dynamicchess.Model.Entity.ChessPieces.PresetPieces.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -77,7 +76,7 @@ public class BoardServices {
     }
 
     public Piece[][] cloneChessboard(int boardSizeY, int boardSizeX) {
-        Piece[][] temporaryChessboard = new Piece[boardSizeY][boardSizeY];
+        Piece[][] temporaryChessboard = new Piece[boardSizeY][boardSizeX];
         IntStream.range(0, this.chessBoard.length).forEach(i ->
                 IntStream.range(0, this.chessBoard[i].length).forEach(j ->
                         temporaryChessboard[i][j] = this.chessBoard[i][j]));

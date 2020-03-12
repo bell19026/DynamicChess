@@ -1,6 +1,5 @@
 package com.liambell.dynamicchess.Controller;
 
-import com.liambell.dynamicchess.Model.Entity.Board;
 import com.liambell.dynamicchess.Model.Entity.ChessPieces.Piece;
 import com.liambell.dynamicchess.Model.Services.BoardServices;
 import com.liambell.dynamicchess.Model.Services.MovementServices;
@@ -19,6 +18,7 @@ public class GameController {
 
     @Autowired
     MovementServices movementServices;
+
     @RequestMapping(value = "/createBoard")
     public void createBoard() {
         boardServices.setChessBoardSize(8, 8);
@@ -29,7 +29,6 @@ public class GameController {
             IntStream.range(0, chessboard.length).mapToObj(j -> "[" + pieces[j].getPieceName() + "]").forEach(System.out::print);
             System.out.println();
         }
-
         boardServices.cloneChessboard(boardServices.getChessBoard().length, boardServices.getChessBoard().length);
     }
 
