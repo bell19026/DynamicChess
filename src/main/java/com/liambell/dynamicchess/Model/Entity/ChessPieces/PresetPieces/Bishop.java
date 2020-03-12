@@ -5,35 +5,9 @@ import com.liambell.dynamicchess.Model.Services.MovementServices;
 
 public class Bishop extends Piece {
 
-    private String pieceName;
+    private final String pieceName = "B";
     private String pieceAllegiance;
 
-    public String getPieceName() {
-        return this.pieceName;
-    }
-
-    public String getPieceAllegiance() {
-        return this.pieceAllegiance;
-    }
-
-    public void setPieceAllegiance(String pieceAllegiance) {
-        this.pieceAllegiance = pieceAllegiance;
-    }
-
-
-    public Bishop() {
-        this.pieceName = "B";
-
-    }
-
-    public Bishop(String pieceName, String pieceAllegiance) {
-        this.pieceName = pieceName;
-        this.pieceAllegiance = pieceAllegiance;
-    }
-
-    public Bishop(String pieceName) {
-        this.pieceName = pieceName;
-    }
 
     @Override
     public boolean isValidMove(Piece[][] board, Piece pieceBeingMoved, int[] startPosition, int[] newPosition) {
@@ -48,5 +22,23 @@ public class Bishop extends Piece {
         }
 
         return isValid;
+    }
+    public Bishop(String pieceAllegiance) {
+        this.setPieceAllegiance(pieceAllegiance);
+    }
+
+    @Override
+    public String getPieceName() {
+        return pieceName;
+    }
+
+    @Override
+    public String getPieceAllegiance() {
+        return pieceAllegiance;
+    }
+
+    @Override
+    public void setPieceAllegiance(String pieceAllegiance) {
+        this.pieceAllegiance = pieceAllegiance;
     }
 }

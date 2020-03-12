@@ -35,9 +35,10 @@ public class Piece implements Movement {
         this.pieceAllegiance = pieceAllegiance;
     }
 
-    public Piece(String pieceName) {
-        this.pieceName = pieceName;
+    public Piece(String pieceAllegiance) {
+        this.pieceAllegiance = pieceAllegiance;
     }
+
 
     @Override
     public boolean isValidMove(Piece[][] chessboard, Piece pieceBeingMoved, int[] startOfMovementPiecePosition, int[] endOfMovementPiecePosition) {
