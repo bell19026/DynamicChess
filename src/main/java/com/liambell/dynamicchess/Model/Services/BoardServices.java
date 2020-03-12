@@ -2,10 +2,10 @@ package com.liambell.dynamicchess.Model.Services;
 
 import com.liambell.dynamicchess.Model.Entity.Board;
 import com.liambell.dynamicchess.Model.Entity.ChessPieces.Piece;
-import com.liambell.dynamicchess.Model.Entity.ChessPieces.PresetPieces.EmptyPiece;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
 
 @Service
@@ -66,11 +66,6 @@ public class BoardServices {
 
     public Piece[][] movePiece(int[] startOfMovementPosition, int[] endOfMovementPosition) {
 
-        /*
-            -Validate if the move is correct
-            -Get the current allegiance
-            - Clone the chessboard, change it, then copy it back
-         */
         Piece piece = this.chessBoard[startOfMovementPosition[0]][startOfMovementPosition[1]];
         String opposingAllegiance = piece.getPieceAllegiance().equals("White") ? "Black" : "White";
 
@@ -94,4 +89,35 @@ public class BoardServices {
         return cloneChessboard(boardSizeY, boardSizeX);
     }
 
+    public boolean isInCheck(Piece[][] board, String currentAllegiance) {
+        int[] kingLocation = new int[2];
+        AtomicBoolean isKingInCheck = new AtomicBoolean(false);
+
+        //Find the location of the King for the current player
+        IntStream.range(0, board.length).forEach(i ->
+                IntStream.range(0, board.length).forEach(j -> {
+                            if(board[i][j].getPieceName().equals("K") && board[i][j].getPieceAllegiance().equals(currentAllegiance)) {
+                        kingLocation[0] = i;
+                        kingLocation[1] = j;
+                    }
+                        }
+                        ));
+
+        //Check if all any pieces from opposing team are placing the king in check.
+        IntStream.range(0, board.length).forEach(i -> IntStream.range(0, board.length).forEach(j -> {
+            if (!board[i][j].getPieceAllegiance().equals(currentAllegiance) && !board[i][j].getPieceName().equals(" ")) {
+
+                //Check all movements that are possible for a piece. If any of those movements force the piece onto the current king, then validate to true;
+                Piece currentPiece = board[i][j];
+                int[] currentPiecePosition = new int[2];
+                currentPiecePosition[0] = i;
+                currentPiecePosition[1] = j;
+                if (currentPiece.isValidMove(board, currentPiece, currentPiecePosition, kingLocation)) {
+                    isKingInCheck.set(true);
+                }
+
+            }
+        }));
+        return isKingInCheck.get();
+    }
 }
