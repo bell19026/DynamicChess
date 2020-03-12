@@ -73,7 +73,7 @@ public class BoardServices {
             - Clone the chessboard, change it, then copy it back
          */
         Piece piece = this.chessBoard[startOfMovementPosition[0]][startOfMovementPosition[1]];
-        String opposingAllegiance = piece.getPieceAllegiance() == "White" ? "Black" : "White";
+        String opposingAllegiance = piece.getPieceAllegiance().equals("White") ? "Black" : "White";
 
         if (piece.isValidMove(this.chessBoard, piece, startOfMovementPosition, endOfMovementPosition)) {
             Piece[][] temporaryChessboard = cloneChessboard(this.chessBoard.length, this.chessBoard.length);
@@ -91,8 +91,7 @@ public class BoardServices {
     }
 
     public Piece[][] modifyChessboardSize(int boardSizeY, int boardSizeX) {
-        Piece[][] temporaryChessboard = cloneChessboard(boardSizeY, boardSizeX);
-        return temporaryChessboard;
+        return cloneChessboard(boardSizeY, boardSizeX);
     }
 
 }
