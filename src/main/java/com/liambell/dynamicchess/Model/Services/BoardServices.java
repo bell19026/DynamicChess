@@ -68,7 +68,10 @@ public class BoardServices {
         Piece piece = this.chessBoard[startOfMovementPosition[0]][startOfMovementPosition[1]];
         String opposingAllegiance = piece.getPieceAllegiance().equals("White") ? "Black" : "White";
 
-        if (piece.isValidMove(this.chessBoard, piece, startOfMovementPosition, endOfMovementPosition)&& !isInCheck(this.chessBoard, piece.getPieceAllegiance())) {
+        if ((piece.isValidMove(this.chessBoard, piece, startOfMovementPosition, endOfMovementPosition)&&
+                !isInCheck(this.chessBoard, piece.getPieceAllegiance())) ||
+                    (piece.isValidMove(this.chessBoard, piece, startOfMovementPosition, endOfMovementPosition) &&
+                        willMovementEliminateCheck(this.chessBoard, startOfMovementPosition, endOfMovementPosition))) {
             this.chessBoard[startOfMovementPosition[0]][startOfMovementPosition[1]] = new EmptyPiece();
             this.chessBoard[endOfMovementPosition[0]][endOfMovementPosition[1]] = piece;
         }
@@ -93,6 +96,7 @@ public class BoardServices {
         AtomicBoolean isKingInCheck = new AtomicBoolean(false);
 
         //Find the location of the King for the current player
+        //May add filter to reduce iteration to find King locations
         IntStream.range(0, board.length).forEach(i ->
                 IntStream.range(0, board.length).forEach(j -> {
                             if(board[i][j].getPieceName().equals("K") && board[i][j].getPieceAllegiance().equals(currentAllegiance)) {
@@ -118,5 +122,20 @@ public class BoardServices {
             }
         }));
         return isKingInCheck.get();
+    }
+
+    private boolean willMovementEliminateCheck(Piece[][] board, int[] startingCoords, int[] endingCoords) {
+        //Move a piece in a temporary board, then check if the state of the board includes check. If the state of the board does not include check, then allow the piece to move, to eliminate check.
+        Piece piece = board[startingCoords[0]][startingCoords[1]];
+        Piece[][] tempBoard = board;
+        boolean eliminatedCheck = false;
+        if (piece.isValidMove(tempBoard, piece, startingCoords, endingCoords)){
+            tempBoard[startingCoords[0]][startingCoords[1]] = new EmptyPiece();
+            tempBoard[endingCoords[0]][endingCoords[1]] = piece;
+            if (!isInCheck(tempBoard, piece.getPieceAllegiance())) {
+                eliminatedCheck = true;
+            }
+        }
+        return eliminatedCheck;
     }
 }
