@@ -33,19 +33,29 @@ public class GameController {
     }
 
     @RequestMapping(value = "/movePieces")
-    public void movePieces() {
-        ArrayList<int[]> pieceMovementCoordinates;
-        boolean continueLoop = true;
-        for (int i = 0; i < 5; i++) {
+    public void movePieces(@RequestHeader String movementCoordinates) {
+        ArrayList<int[]> pieceMovementCoordinates = new ArrayList<>();
             try {
-                pieceMovementCoordinates = movementServices.getCoordinatesForPieceMovementAction();
+                ArrayList<Integer> coords = new ArrayList<>();
+                int[] startingCoordinates = new int[2];
+                int[] endingCoordinates = new int[2];
+                for(String s : movementCoordinates.split("")) {
+                    coords.add(Integer.parseInt(s));
+                }
+                startingCoordinates[0] = coords.get(0);
+                startingCoordinates[1] = coords.get(1);
+                endingCoordinates[0] = coords.get(2);
+                endingCoordinates[1] = coords.get(3);
+                pieceMovementCoordinates.add(startingCoordinates);
+                pieceMovementCoordinates.add(endingCoordinates);
                 boardServices.movePiece(pieceMovementCoordinates.get(0), pieceMovementCoordinates.get(1));
+                System.out.println("\n");
                 printBoard();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-    }
+
 
     private void printBoard() {
         for (Piece[] pieces : boardServices.getChessBoard()) {

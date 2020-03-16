@@ -62,6 +62,7 @@ public class MovementServices {
                     if (!board[i][basePositionX].getPieceAllegiance().equals(allegiance) || board[i][basePositionX].getPieceName().equals(" ")) {
                         isClearPath = true;
                     } else if (endPositionY - basePositionY != 1) {
+                        isClearPath = false;
                         break iterator;
                     }
                 }

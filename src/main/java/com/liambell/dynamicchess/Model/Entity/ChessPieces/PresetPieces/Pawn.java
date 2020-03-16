@@ -20,11 +20,11 @@ public class Pawn extends Piece {
         if (!board[newPosition[0]][newPosition[1]].getPieceAllegiance().equals(pieceBeingMoved.getPieceAllegiance())) {
             if ((startPosition[0] == 1 && newPosition[0] == 3) ||(startPosition[0] == 6 && newPosition[0] == 4) && board[2][startPosition[1]].getPieceName().equals(" ")) {
                 isValid = true;
-            } else if (Math.abs(newPosition[1] - startPosition[1]) == movementRule[0][0] &&
+            } else if (Math.abs(newPosition[0] - startPosition[0]) == movementRule[0][0] &&
                     board[newPosition[0]][newPosition[1]].getPieceName().equals(" ")
             ) {
                 isValid = true;
-            } else if (Math.abs(newPosition[1] - startPosition[1]) == 1) {
+            } else if (Math.abs(newPosition[0] - startPosition[0]) == 1) {
                 if (!board[newPosition[0]][newPosition[1]].getPieceName().equals(" ") &&
                         !this.getPieceAllegiance().equals(allegiance)) {
                     isValid = true;

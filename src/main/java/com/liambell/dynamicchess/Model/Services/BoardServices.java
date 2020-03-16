@@ -68,7 +68,7 @@ public class BoardServices {
         Piece piece = this.chessBoard[startOfMovementPosition[0]][startOfMovementPosition[1]];
         String opposingAllegiance = piece.getPieceAllegiance().equals("White") ? "Black" : "White";
 
-        if (piece.isValidMove(this.chessBoard, piece, startOfMovementPosition, endOfMovementPosition)) {
+        if (piece.isValidMove(this.chessBoard, piece, startOfMovementPosition, endOfMovementPosition)&& !isInCheck(this.chessBoard, piece.getPieceAllegiance())) {
             this.chessBoard[startOfMovementPosition[0]][startOfMovementPosition[1]] = new EmptyPiece();
             this.chessBoard[endOfMovementPosition[0]][endOfMovementPosition[1]] = piece;
         }
@@ -88,7 +88,7 @@ public class BoardServices {
         return cloneChessboard(boardSizeY, boardSizeX);
     }
 
-    public boolean isInCheck(Piece[][] board, String currentAllegiance) {
+    private boolean isInCheck(Piece[][] board, String currentAllegiance) {
         int[] kingLocation = new int[2];
         AtomicBoolean isKingInCheck = new AtomicBoolean(false);
 
