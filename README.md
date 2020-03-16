@@ -3,7 +3,7 @@ To demonstrate Object-oriented competency, I'm working on a version of chess tha
 as well as have new preset pieces with their own calculated ranking values. The goal is to enable network based multiplayer, 
 as well as a minimax approach to an AI player. This solution is being built using the Spring Framework, primarily for the built 
 in Inversion of Control capabilities. My end-goal with this will be a fully functional dynamic version of chess, built without 
-any reference documentation, not including the minimax algorithm wikipedia page.
+any reference documentation/stack overflow/etc, not including the minimax algorithm wikipedia page, which I will have to use in order to implement an AI system.
 
 I've incorporated some key Java 8 functionality, primarily the use of Streams and lambda functions for arbitrary iteration. 
 It's reduced the amount of boilerplate code, as well as increased readability.
